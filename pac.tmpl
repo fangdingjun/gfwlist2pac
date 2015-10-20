@@ -1,0 +1,33 @@
+var domains = {
+    {{ range $index, $value := .Domains}}
+    "{{ $index }}": {{ $value }},{{ end}}
+    
+    {{ with .Custom}}{{range $ii, $vv := .}}
+    "{{$ii}}": {{$vv}},{{end}}{{end}}
+    
+    "__THE_END__": 1
+};
+
+var proxy = "{{ .Proxy }}; DIRECT;";
+var direct = 'DIRECT;';
+
+var hasOwnProperty = Object.hasOwnProperty;
+
+function FindProxyForURL(url, host) {
+    var suffix;
+    var pos = host.lastIndexOf('.');    
+    while(1) {
+        pos = host.lastIndexOf('.', pos - 1);
+        if (pos <= 0) {
+            if (hasOwnProperty.call(domains, host)) {
+                return proxy;
+            } else {
+                return direct;
+            }
+        }
+        suffix = host.substring(pos + 1);
+        if (hasOwnProperty.call(domains, suffix)) {
+            return proxy;
+        }
+    }
+}
