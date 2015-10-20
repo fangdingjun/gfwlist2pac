@@ -1,5 +1,5 @@
 gfwlist2pac
-==========
+===========
 
 gfwlist2pac implement by go.
 
@@ -9,7 +9,7 @@ Install
     go get github.com/fangdingjun/gfwlist2pac
 
 Usage
-====
+=====
 
     Usage: gfwlist2pac [OPTION]...
 
